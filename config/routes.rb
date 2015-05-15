@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'site#index'
 
+  [:events, :models, :views, :collections, :routes, :template, :app].each do |action|
+    get "#{action}" => "site##{action}"
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

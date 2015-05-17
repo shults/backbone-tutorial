@@ -6,15 +6,16 @@
         Backbone    = root.Backbone;
 
     var User = root.User = Backbone.Model.extend({
-        url: function() {
-            var url;
-            if (this.isNew()){
-                url = "/users.json";
-            } else {
-                url = "/users/" + this.id + ".json";
-            }
-            return url;
-        }
+        urlRoot: '/users'
+        //url: function() {
+            //var url;
+            //if (this.isNew()){
+            //    url = "/users.json";
+            //} else {
+            //    url = "/users/" + this.id + ".json";
+            //}
+            //return url;
+        //}
     });
 
 })(this);

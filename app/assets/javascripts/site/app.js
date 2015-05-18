@@ -42,7 +42,9 @@
 
         var UserView = Backbone.View.extend({
             events: {
-                'click .app-btn-delete': 'onDelete'
+                'click .app-btn-delete': 'onDelete',
+                'click .app-btn-edit': 'onEdit',
+                'click .app-btn-view': 'onView'
             },
             tagName: 'tr',
             template: _.template( $('#user-template').html() ),
@@ -66,6 +68,14 @@
 
                 e.preventDefault();
                 e.stopPropagation();
+            },
+            onEdit: function(e) {
+                app.proxy.trigger('edit:user', this.model);
+                e.preventDefault();
+            },
+            onView: function(e) {
+                app.proxy.trigger('view:user', this.model);
+                e.preventDefault();
             }
         });
 
@@ -75,6 +85,7 @@
                 'click .app-btn-cancel': 'onCancel'
             },
             tagName: 'tr',
+            className: 'danger',
             template: _.template( $('#app-user-remove').html() ),
             render: function() {
                 this.$el.html( this.template() );
@@ -98,15 +109,69 @@
             }
         });
 
+        var UserEditView = Backbone.View.extend({
+            template: _.template( $('#app-user-edit').html() ),
+            render: function() {
+                this.$el.html( this.template() );
+                return this;
+            }
+        });
 
-        // start app
-        var users = new UserCollection();
+        var ViewUserView = Backbone.View.extend({
+            template: _.template( $('#app-user-view').html() ),
+            render: function() {
+                this.$el.html( this.template() );
+                return this;
+            }
+        });
 
-        users.fetch()
-            .done(function() {
-                $('.app-left-region').html(
-                    new UsersView({collection: users}).render().$el
+        var app = {
+            proxy: _.extend({}, Backbone.Events),
+
+            leftRegion: $('.app-left-region'),
+            rightRegion: $('.app-right-region'),
+
+            newUserBtn: $('.app-btn-new-user'),
+
+            run: function() {
+                this.users = new UserCollection();
+
+                this.users
+                    .fetch()
+                    .done(this.renderUsers.bind(this));
+
+                this.proxy
+                    .on('edit:user', this.renderEditUser, this)
+                    .on('view:user', this.renderViewUser, this)
+
+                    .trigger('edit:user', new UserModel({collection: this.users}));
+
+                this.newUserBtn
+                    .on('click', this.onNewUser.bind(this));
+            },
+            renderUsers: function() {
+                this.leftRegion.html(
+                    new UsersView({collection: this.users}).render().$el
                 );
-            });
+            },
+            renderEditUser: function(model) {
+                this.rightRegion.html(
+                    new UserEditView({model: model}).render().$el
+                );
+            },
+            renderViewUser: function(model) {
+                this.rightRegion.html(
+                    new ViewUserView({model: model}).render().$el
+                );
+            },
+            onNewUser: function(e) {
+                this.proxy
+                    .trigger('edit:user', new UserModel({collection: this.users}));
+
+                e.preventDefault();
+            }
+        };
+
+        app.run();
     });
 })(this);

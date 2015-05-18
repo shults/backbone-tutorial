@@ -1,0 +1,117 @@
+<script type="text/template" id="users-template">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+          <th>Buttons</th>
+        </tr>
+      </thead>
+      <tbody class="app-child-region">
+        	<tr class="danger">
+        		
+        	</tr>
+      </tbody>
+  </table>
+</script>
+
+<script type="text/template" id="user-template">
+  <td><%%= this.model.get("first_name") %></td>
+  <td><%%= this.model.get("last_name") %></td>
+  <td><%%= this.model.get("username") %></td>
+  <td>
+  	<a href="#" class="btn btn-default">
+  		<i class="glyphicon glyphicon-eye-open app-btn-view"></i>
+  	</a>
+  	<a href="#" class="btn btn-warning">
+  		<i class="glyphicon glyphicon-edit app-btn-edit"></i>
+  	</a>
+  	<a href="#" class="btn btn-danger">
+  		<i class="glyphicon glyphicon-trash app-btn-delete"></i>
+  	</a>
+  </td>
+</script>
+
+<script type="text/template" id="app-user-remove">
+  <td scope="row" colspan="3" style="vertical-align: middle;">
+    Do you realy want delete user <%%= this.model.fullName() %>?
+  </td>
+  <td>
+    <a href="#" class="btn btn-danger app-btn-approve">
+      <i class="glyphicon glyphicon-ok"></i> Yes
+    </a>
+    <a href="#" class="btn btn-default app-btn-cancel">
+      <i class="glyphicon glyphicon-remove"></i> No
+    </a>
+  </td>
+</script>
+
+<script type="text/template" id="app-user-edit">
+  <form>
+    <div class="form-group">
+      <label for="exampleInputEmail1">First Name</label>
+      <input type="text" class="form-control" id="firstName" placeholder="First Name">
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <label for="bio">Bio</label>
+      <textarea class="form-control" id="bio" placeholder="Bio" rows="7"></textarea>
+    </div>
+    <button type="submit" class="btn btn-info">Save</button>
+    <button type="button" class="btn btn-danger">Delete</button>
+  </form>
+</script>
+
+<script type="text/template">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>First Name</td>
+        <td>Mark 0</td>
+      </tr>
+      <tr>
+        <td>Last Name</td>
+        <td>Otto 0</td>
+      </tr>
+      <tr>
+        <td>Username</td>
+        <td>@user1</td>
+      </tr>
+      <tr>
+        <td>Bio</td>
+        <td>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas commodo sem ut vestibulum pulvinar. Ut bibendum consequat purus, id hendrerit ligula commodo nec. Duis vitae dolor iaculis, rhoncus dui et, egestas odio. Curabitur sodales enim vitae odio placerat, eu porttitor nibh viverra. Etiam tincidunt orci sed blandit eleifend. Vivamus quis vestibulum lectus. Curabitur dapibus felis a interdum consectetur. Donec viverra sit amet est non feugiat. Donec ut interdum erat.
+          </p>
+          <p>
+            In hac habitasse platea dictumst. Vestibulum in malesuada tortor. Integer ut malesuada enim, vel varius nisi. In purus risus, efficitur at varius sed, faucibus ac erat. Etiam non tortor rhoncus enim tristique faucibus bibendum sed erat. Mauris sapien nunc, rhoncus eget neque eget, sagittis venenatis ligula. Nam odio turpis, bibendum vitae risus scelerisque, gravida dictum ante.
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+
+<div class="row">
+  <div class="col-md-12">
+    <a href="#" class="btn btn-info">Add New User</a>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 app-left-region"></div>
+  <div class="col-md-6 app-right-region"></div>
+</div>

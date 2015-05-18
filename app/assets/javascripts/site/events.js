@@ -7,7 +7,7 @@
 
     // 01. Events
     // Pattern PubSub/Observer
-    // console.log(Backbone.Events);
+    console.log(Backbone.Events);
     // once(name, callback, [context])
     // on(name, callback, [context])
     // off(name, callback, [context])
@@ -24,9 +24,9 @@
     // 02. Simple example
     // one published one subscriber
     //var publisher  = $.extend({}, Backbone.Events),
-    //    subscriber = $.extend({name: 'John Doe'}, Backbone.Events);
+    ///    subscriber = $.extend({name: 'John Doe'}, Backbone.Events);
     //
-    //subscriber.listenTo(publisher, 'newspaper', function() {
+    // subscriber.listenTo(publisher, 'newspaper', function() {
     //   console.log('Subscriber %s has got a newspaper', this.name);
     //});
     //
@@ -35,47 +35,47 @@
     // 03. Many publishers and many subscribers
 
     // Publisher Constructor
-    // function Publisher(name) {
-    //     this.name = name;
-    // }
-    // $.extend(Publisher.prototype, {
-    //     publishNewspaper: function(title) {
-    //         this.trigger('newspaper', title, this);
-    //     },
-    //     publishMagazine: function(title) {
-    //         this.trigger('magazine', title, this);
-    //     }
-    // }, Backbone.Events);
+    function Publisher(name) {
+         this.name = name;
+    }
+    $.extend(Publisher.prototype, {
+        publishNewspaper: function(title) {
+            this.trigger('newspaper', title, this);
+        },
+        publishMagazine: function(title) {
+             this.trigger('magazine', title, this);
+        }
+    }, Backbone.Events);
 
     // // Subscriber Constructor
-    // function Subscriber(name) {
-    //     this.name = name;
-    // }
-    // $.extend(Subscriber.prototype, {
-    //     getNewspaper: function(title, publisher) {
-    //         console.log("My name is %s and I'm reading newspaper %s from %s.", this.name, title, publisher.name);
-    //     },
-    //     getMagazine: function(title, publisher) {
-    //         console.log("My name is %s and I'm reading magazine %s from %s.", this.name, title, publisher.name);
-    //     }
-    // }, Backbone.Events);
+    function Subscriber(name) {
+        this.name = name;
+    }
+    $.extend(Subscriber.prototype, {
+        getNewspaper: function(title, publisher) {
+            console.log("My name is %s and I'm reading newspaper %s from %s.", this.name, title, publisher.name);
+        },
+        getMagazine: function(title, publisher) {
+            console.log("My name is %s and I'm reading magazine %s from %s.", this.name, title, publisher.name);
+        }
+    }, Backbone.Events);
 
-    // var newYorkTimes    = new Publisher('New York Times'),
-    //     gazetaWyborcza  = new Publisher('Gazeta Wyborcza'),
+    var newYorkTimes    = new Publisher('New York Times'),
+         gazetaWyborcza  = new Publisher('Gazeta Wyborcza'),
 
     //     // subscribers
-    //     johnDoe         = new Subscriber('John Doe'),
-    //     janKowalski     = new Subscriber('Jan Kowalski');
+         johnDoe         = new Subscriber('John Doe'),
+         janKowalski     = new Subscriber('Jan Kowalski');
 
-    // johnDoe.listenTo(newYorkTimes, 'newspaper', johnDoe.getNewspaper);
+    johnDoe.listenTo(newYorkTimes, 'newspaper', johnDoe.getNewspaper);
 
-    // janKowalski.listenTo(gazetaWyborcza, 'newspaper', janKowalski.getNewspaper);
-    // janKowalski.listenTo(gazetaWyborcza, 'magazine', janKowalski.getMagazine);
+    janKowalski.listenTo(gazetaWyborcza, 'newspaper', janKowalski.getNewspaper);
+    janKowalski.listenTo(gazetaWyborcza, 'magazine', janKowalski.getMagazine);
 
-    // newYorkTimes.publishMagazine('PHP kills Java');
-    // newYorkTimes.publishNewspaper('CSS10 IN Action');
+    newYorkTimes.publishMagazine('PHP kills Java');
+    newYorkTimes.publishNewspaper('CSS10 IN Action');
 
-    // gazetaWyborcza.publishMagazine('Google bought Facebook');
-    // gazetaWyborcza.publishNewspaper('PHP vs JavaScript');
+    gazetaWyborcza.publishMagazine('Google bought Facebook');
+    gazetaWyborcza.publishNewspaper('PHP vs JavaScript');
 
 })(this);

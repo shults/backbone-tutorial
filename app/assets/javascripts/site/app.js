@@ -1,12 +1,12 @@
 (function(root) {
 
-	var Backbone = root.Backbone,
+    var Backbone = root.Backbone,
         _ = root._,
         $ = root.jQuery;
 
     $(function() {
 
-    	var UserModel = Backbone.Model.extend({
+        var UserModel = Backbone.Model.extend({
             defaults: {
                 deleting: false
             },
@@ -16,13 +16,13 @@
             fullName: function() {
                 return this.get('first_name') + ' ' + this.get('last_name');
             },
-    		urlRoot: '/users'
-    	});
+            urlRoot: '/users'
+        });
 
-    	var UserCollection = Backbone.Collection.extend({
+        var UserCollection = Backbone.Collection.extend({
             model: UserModel,
             url: '/users'
-    	});
+        });
 
         var UsersView = Backbone.View.extend({
             template: _.template( $('#users-template').html() ),

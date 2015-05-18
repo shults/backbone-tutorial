@@ -7,15 +7,10 @@
 
     var User = root.User = Backbone.Model.extend({
         urlRoot: '/users'
-        //url: function() {
-            //var url;
-            //if (this.isNew()){
-            //    url = "/users.json";
-            //} else {
-            //    url = "/users/" + this.id + ".json";
-            //}
-            //return url;
-        //}
+    });
+
+    var UserCollection = root.UserCollection = Backbone.Collection.extend({
+        url: '/users'
     });
 
 })(this);

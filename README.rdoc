@@ -17,13 +17,13 @@ Deployment info
     $ cd {repo_path}
 
 * Install all dependencies
-	$ bundle install
+    $ bundle install
 
 * Database creation & initialization
-	$ rake db:drop && rake db:create && rake db:migrate && rake db:seed
+    $ rake db:drop && rake db:create && rake db:migrate && rake db:seed
 
 * Run test server
-	$ rails s
+    $ rails s
 
 * Have fun
-	$ curl -XGET http://localhost:3000/
+    $ curl -XGET http://localhost:3000/

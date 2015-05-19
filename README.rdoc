@@ -1,15 +1,10 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+Deployment info
 
 * Install RVM as simple user (not root) from http://rvm.io/
-```
-$ cd ~
-$ \curl -sSL https://get.rvm.io | bash -s stable
-```
+    $ cd ~
+    $ \curl -sSL https://get.rvm.io | bash -s stable
 
 * Install ruby
     $ rvm install 2.2
@@ -19,26 +14,16 @@ $ \curl -sSL https://get.rvm.io | bash -s stable
     $ git clone git@git.kr.freshmail.pl:jaroslaw.kocur/backbone-tutorial.git
 
 * Goto repo dir
-```
-$ cd {repo_path}
-```
+    $ cd {repo_path}
 
 * Install all dependencies
-```
-$ bundle install
-```
+	$ bundle install
 
 * Database creation & initialization
-```
-$ rake db:drop && rake db:create && rake db:migrate && rake db:seed
-```
+	$ rake db:drop && rake db:create && rake db:migrate && rake db:seed
 
 * Run test server
-```
-$ rails s
-```
+	$ rails s
 
 * Have fun
-```
-$ curl -XGET http://localhost:3000/
-```
+	$ curl -XGET http://localhost:3000/

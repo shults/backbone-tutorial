@@ -8,7 +8,11 @@
 
         var UserModel = Backbone.Model.extend({
             defaults: {
-                deleting: false
+                deleting: false,
+                first_name: null,
+                last_name: null, 
+                bio: null,
+                username: null
             },
             isDeleting: function() {
                 return this.get('deleting');
@@ -26,11 +30,12 @@
 
         var UsersView = Backbone.View.extend({
             template: _.template( $('#users-template').html() ),
+            initialize: function() {
+                this.listenTo(this.collection, 'add', this.renderItem);
+            },
             render: function() {
                 this.$el.html( this.template() );
-
                 this.collection.each(this.renderItem, this);
-
                 return this;
             },
             renderItem: function(model) {
@@ -70,11 +75,11 @@
                 e.stopPropagation();
             },
             onEdit: function(e) {
-                app.proxy.trigger('edit:user', this.model);
+                Backbone.trigger('user:edit', this.model);
                 e.preventDefault();
             },
             onView: function(e) {
-                app.proxy.trigger('view:user', this.model);
+                Backbone.trigger('user:view', this.model);
                 e.preventDefault();
             }
         });
@@ -110,10 +115,40 @@
         });
 
         var UserEditView = Backbone.View.extend({
+            events: {
+                'click .app-btn-save': 'onSave',
+                'click .app-btn-delete': 'onDelete',
+                'submit .app-form': 'onSave'
+            },
             template: _.template( $('#app-user-edit').html() ),
+            initialize: function() {
+                this.listenTo(this.model, 'change', this.render);
+                this.listenTo(this.model, 'destroy', this.remove);
+            },
             render: function() {
                 this.$el.html( this.template() );
                 return this;
+            },
+            onSave: function(e) {
+                this.model
+                    .set({
+                        first_name: this.$('.app-first-name').val(),
+                        last_name: this.$('.app-last-name').val(),
+                        bio: this.$('.app-bio').val(),
+                        username: this.$('.app-bio').val()
+                    })
+                    .save()
+                    .done( Backbone.trigger.bind(Backbone, 'user:save', this.model) )
+                    .fail( alert.bind('Coś poszło nie tak.') );
+
+                e.preventDefault();
+            },
+            onDelete: function(e) {
+                if (root.confirm('Naprawde chcesz usunuć model?')) {
+                    this.model.destroy();
+                }
+
+                e.preventDefault();
             }
         });
 
@@ -126,13 +161,9 @@
         });
 
         var app = {
-            proxy: _.extend({}, Backbone.Events),
-
             leftRegion: $('.app-left-region'),
             rightRegion: $('.app-right-region'),
-
             newUserBtn: $('.app-btn-new-user'),
-
             run: function() {
                 this.users = new UserCollection();
 
@@ -140,14 +171,18 @@
                     .fetch()
                     .done(this.renderUsers.bind(this));
 
-                this.proxy
-                    .on('edit:user', this.renderEditUser, this)
-                    .on('view:user', this.renderViewUser, this)
+                Backbone
+                    .on('user:edit', this.renderEditUser, this)
+                    .on('user:view', this.renderViewUser, this)
+                    .on('user:save', this.addToUsers, this)
 
-                    .trigger('edit:user', new UserModel({collection: this.users}));
+                    .trigger('user:edit', new UserModel());
 
                 this.newUserBtn
                     .on('click', this.onNewUser.bind(this));
+            },
+            addToUsers: function(model) {
+                this.users.add(model);
             },
             renderUsers: function() {
                 this.leftRegion.html(
@@ -165,8 +200,7 @@
                 );
             },
             onNewUser: function(e) {
-                this.proxy
-                    .trigger('edit:user', new UserModel({collection: this.users}));
+                Backbone.trigger('user:edit', new UserModel());
 
                 e.preventDefault();
             }

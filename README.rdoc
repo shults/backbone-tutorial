@@ -12,15 +12,11 @@ $ \curl -sSL https://get.rvm.io | bash -s stable
 ```
 
 * Install ruby
-```
-$ rvm install 2.2
-$ rvm use 2.2
-```
+    $ rvm install 2.2
+    $ rvm use 2.2
 
 * Clone repo
-```
-$ git clone git@git.kr.freshmail.pl:jaroslaw.kocur/backbone-tutorial.git
-```
+    $ git clone git@git.kr.freshmail.pl:jaroslaw.kocur/backbone-tutorial.git
 
 * Goto repo dir
 ```

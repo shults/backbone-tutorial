@@ -1,10 +1,10 @@
 /**
  * Wszystko co jest w tym skrypci zamykam
- * w fubnkcje natychmiastowej
- * dlatego żeby wszystkie zmienne jakie będą używane w
+ * wewnątrz funkcji natychmiastowej.
+ * Dlatego żeby wszystkie zmienne jakie będą używane w
  * tym skrypcie były lokalnymi.
  *
- * To powoduje unikanie podstawowych błedów i robi kod czyscijszym.
+ * To powoduje unikanie podstawowych błedów i robi kod czystszym.
  * Exsportowanie do głobalnego namespasu wygłąda w następującyj sposób
  * ```
  *      root.ExternalConstructor = SomeInternalConstructor;
@@ -16,8 +16,9 @@
     /**
      * Importujemy objekty z głobalnego namespasu.
      * To nam pozwoli kożystać z lokalnych linków na te objekty.
-     * I pod czas obfuskacji (uglify.js lub google closure) kodu
-     * ratio zmniejszenia kodu będzie liepszym.
+     * I pod czas obfuskacji (zacięmninia) kodu.
+     * Rati jest liepszym zmniejszenia kodu będzie liepszym.
+     * [ration] = [rozmiar pliku po obfuskacji] / [rozmiar pliku na początku]
      */
     var Backbone = root.Backbone,
         _ = root._,
@@ -29,7 +30,7 @@
      * są zamykane f kollbacku $(document).ready()
      * Jest to zrobione z tego powodu że widoki jakie są
      * w tym SPA kożystają z DOM, bo w DOMu są zdefiniowane templatki.
-     * Dlatego muśimy poczekać póki templatka załaduje
+     * Dlatego muśimy poczekać póki templatka załaduje (DOM zostanie przeanalizowany przeglądarke)
      */
     $(function() {
         /**
@@ -207,17 +208,16 @@
                  * W tym momencie jest rozwiązywany probłem z zagniżdżeniem.
                  * Probłem polega na tym że widok-wierz nie powinienen znać niczego o istnieniu
                  * widoku edyrtowania.
-                 * Ale może wysłać jakieś żadanie do "Głobalnego" proxy objekta.
-                 * Jaki niczego nie dziła. Poprostu pracuje jak proxy objekt - przesuyła sygnał.
+                 * Ale może wysłać jakieś żadanie do eventEmitera.
                  */
-                Backbone.trigger('user:edit', this.model);
+                eventDispatcher.trigger('user:edit', this.model);
                 e.preventDefault();
             },
             onView: function(e) {
                 /**
                  * Analogicznie jak w this.onEdit
                  */
-                Backbone.trigger('user:view', this.model);
+                eventDispatcher.trigger('user:view', this.model);
                 e.preventDefault();
             }
         });
@@ -299,12 +299,12 @@
                     first_name: this.$('.app-first-name').val(),
                     last_name: this.$('.app-last-name').val(),
                     bio: this.$('.app-bio').val(),
-                    username: this.$('.app-bio').val()
+                    username: this.$('.app-username').val()
                 };
             },
             /**
              * W prypadku jeżeli save się uda,
-             * to triggerujemy w naszym "głowalnm" proxy-objekcie "Backbone"
+             * to triggerujemy w naszym "głobalnym" event dispatczerze
              * akcje jaka sygnalizuje że był sworzony nowy model.
              *
              * Jezęli fail, to coś posało nie tak.
@@ -314,8 +314,8 @@
                 this.model
                     .set(this.serialize())
                     .save()
-                    .done( Backbone.trigger.bind(Backbone, 'user:save', this.model) )
-                    .fail( alert.bind('Coś poszło nie tak.') );
+                    .done( eventDispatcher.trigger.bind(eventDispatcher, 'user:save', this.model) )
+                    .fail( alert.bind(null, 'Coś poszło nie tak.') );
 
                 e.preventDefault();
             },
@@ -366,9 +366,8 @@
                     // to renderujemy ją
                     .done(this.renderUsers.bind(this));
 
-                // tu definiujemy kollbacki naszego głobalnego
-                // proxy objektu
-                Backbone
+                // tu definiujemy kollbacki naszego event dispatczera
+                eventDispatcher
                     .on('user:edit', this.renderEditUser, this)
                     .on('user:view', this.renderViewUser, this)
                     .on('user:save', this.addToUsers, this)
@@ -402,11 +401,13 @@
             },
             onNewUser: function(e) {
                 // imitacja tworzenia nowego użytkownika
-                Backbone.trigger('user:edit', new UserModel());
+                eventDispatcher.trigger('user:edit', new UserModel());
 
                 e.preventDefault();
             }
         };
+
+        var eventDispatcher = _.extend({}, Backbone.Events);
 
         // uruchamaiamy appke
         app.run();

@@ -2,7 +2,7 @@ class SiteController < ApplicationController
 	def index
 	end
 
-	def events 
+	def events
 	end
 
 	def views
@@ -17,11 +17,14 @@ class SiteController < ApplicationController
 	def template
 	end
 
-	def app
+	def users
+	end
+
+	def groups
 	end
 
 	protected
-		def hallo 
+		def hallo
 			'hallo'
 		end
 end

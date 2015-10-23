@@ -24,6 +24,13 @@
         _ = root._,
         $ = root.jQuery;
 
+    // use underscore templates as handlebars
+    _.templateSettings = {
+      evaluate:    /\{\{(.+?)\}\}/g,
+      interpolate: /\{\{=(.+?)\}\}/g,
+      escape:      /\{\{-(.+?)\}\}/g
+    };
+
     /**
      * Wszystkie kłasy jakie są zdefiniowane
      * w tej SPA (Single Page Application)
